@@ -8,10 +8,21 @@ class SampleNoteController extends GetxController {
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-
+  late Note note;
   @override
   void onInit() {
     super.onInit();
+
+    final data = Get.arguments as Map<String, dynamic>?;
+    if (data != null) {
+      try {
+        note = Note.fromMap(data);
+        titleController.text = note!.title;
+        contentController.text = note!.content;
+      } catch (e) {
+        print("Lỗi dữ liệu ghi chú: $e");
+      }
+    }
 
     titleController.addListener(() {
       title.value = titleController.text;

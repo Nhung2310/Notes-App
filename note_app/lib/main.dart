@@ -31,7 +31,8 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: AppRoutesName.home,
           page: () => HomeScreen(),
-          bindings: [HomeBinding(), EditorBinding(), SampleNoteBinding()],
+          binding: HomeBinding(),
+          // bindings: [HomeBinding(), EditorBinding(), SampleNoteBinding()],
         ),
         GetPage(
           name: AppRoutesName.editor,

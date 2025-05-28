@@ -10,7 +10,6 @@ class EditorScreen extends GetView<EditorController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.loadData();
     return Scaffold(
       body: Obx(
         () => Container(

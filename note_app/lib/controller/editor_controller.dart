@@ -30,7 +30,7 @@ class EditorController extends GetxController {
     loadData();
   }
 
-  Future<void> refresh() async {
+  void refresh() {
     titleController.clear();
     contentController.clear();
     title.value = '';
@@ -81,7 +81,7 @@ class EditorController extends GetxController {
         notesList.map((noteMap) => jsonEncode(noteMap)).toList(),
       );
 
-      await refresh();
+      refresh();
 
       Get.find<HomeController>().loadNotes();
 
