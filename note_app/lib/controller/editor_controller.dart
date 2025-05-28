@@ -15,11 +15,12 @@ class EditorController extends GetxController {
   String? _noteId;
   final backgroundColor = 0xFF000000.obs;
   final textColor = 0xFFFFFFFF.obs;
+  final isEditing = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-
+    loadData();
     titleController.addListener(() {
       title.value = titleController.text;
     });
@@ -82,9 +83,7 @@ class EditorController extends GetxController {
       );
 
       refresh();
-
       Get.find<HomeController>().loadNotes();
-
       Get.toNamed(AppRoutesName.home);
 
       Get.snackbar('Success', 'Note saved successfully');

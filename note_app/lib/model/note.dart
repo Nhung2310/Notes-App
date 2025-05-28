@@ -1,9 +1,9 @@
 class Note {
-  final String id;
-  final String title;
-  final String content;
-  final int backgroundColor;
-  final int textColor;
+  String id;
+  String title;
+  String content;
+  int backgroundColor;
+  int textColor;
 
   Note({
     required this.id,

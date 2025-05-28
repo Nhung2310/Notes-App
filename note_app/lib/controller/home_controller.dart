@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'package:note_app/model/note.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,6 +10,10 @@ class HomeController extends GetxController {
   RxList<Note> notes = <Note>[].obs;
 
   Future<void> loadNotes() async {
+    // if (!Get.isRegistered<SearchingController>()) {
+    //   Get.put(SearchingController());
+    // }
+
     final prefs = await SharedPreferences.getInstance();
     final List<String> savedNotes = prefs.getStringList('saved_notes') ?? [];
 

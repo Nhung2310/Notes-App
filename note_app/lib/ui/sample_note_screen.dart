@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
-import 'package:note_app/app_routes_name.dart';
 import 'package:note_app/controller/sample_note_controller.dart';
-import 'package:note_app/model/note.dart';
+
 import 'package:note_app/widget/app_color.dart';
 
 class SampleNoteScreen extends GetView<SampleNoteController> {
   @override
   Widget build(BuildContext context) {
-    // final data = Get.arguments as Map<String, dynamic>?;
-    // if (data == null) {
-    //   return Scaffold(body: Center(child: Text("No note data")));
-    // }
-
-    // try {
-    //   final note = Note.fromMap(data);
-    //   controller.titleController.text = note.title;
-    //   controller.contentController.text = note.content;
-
     return Scaffold(
       body: Container(
         padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
@@ -48,36 +38,181 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                     constraints: BoxConstraints(),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: AppColor.grey,
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      Get.toNamed(
-                        AppRoutesName.editor,
-                        arguments: controller.note.toMap(),
+                Obx(() {
+                  return controller.isEditing.value
+                      ? Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColor.grey,
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                showDialog(
+                                  context: context,
+                                  builder:
+                                      (ctx) => AlertDialog(
+                                        title: Text("Chọn màu nền"),
+                                        content: SingleChildScrollView(
+                                          child: BlockPicker(
+                                            pickerColor: Color(
+                                              controller.note.backgroundColor,
+                                            ),
+                                            onColorChanged: (Color color) {
+                                              controller.note.backgroundColor =
+                                                  color.value;
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.color_lens,
+                                color: AppColor.white,
+                              ),
+                              iconSize: 20,
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                            ),
+                          ),
+                          SizedBox(width: 20),
+
+                          Container(
+                            padding: EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColor.grey,
+                            ),
+                            child: IconButton(
+                              onPressed: () {
+                                Get.dialog(
+                                  barrierColor: Colors.grey.withOpacity(0.7),
+                                  Dialog(
+                                    shape: BeveledRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: AppColor.black,
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.question_mark_rounded,
+                                            color: AppColor.white,
+                                          ),
+                                          Text(
+                                            'Save changes ?',
+                                            style: TextStyle(
+                                              color: AppColor.white,
+                                            ),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  controller.isEditing.value =
+                                                      false;
+                                                  Get.back();
+                                                },
+                                                child: Text('Discard'),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor: AppColor.red,
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  controller.updateNote();
+                                                  controller.isEditing.value =
+                                                      false;
+                                                },
+                                                child: Text('Save'),
+                                                style: TextButton.styleFrom(
+                                                  foregroundColor:
+                                                      AppColor.green,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              icon: Icon(
+                                Icons.save_outlined,
+                                color: AppColor.white,
+                              ),
+                              iconSize: 20,
+                              padding: EdgeInsets.zero,
+                              constraints: BoxConstraints(),
+                            ),
+                          ),
+                        ],
+                      )
+                      : Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color: AppColor.grey,
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            controller.isEditing.value = true;
+                          },
+                          icon: Icon(Icons.edit, color: AppColor.white),
+                          iconSize: 20,
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                        ),
                       );
-                    },
-                    icon: Icon(Icons.edit, color: AppColor.white),
-                    iconSize: 20,
-                    padding: EdgeInsets.zero,
-                    constraints: BoxConstraints(),
-                  ),
-                ),
+                }),
               ],
             ),
             SizedBox(height: 20),
-            Text(
-              controller.titleController.text,
-              style: TextStyle(color: AppColor.white, fontSize: 25),
+            Obx(
+              () => TextField(
+                controller: controller.titleController,
+                enabled: controller.isEditing.value,
+                style: TextStyle(
+                  color: Color(controller.note.textColor),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Tiêu đề...',
+                  hintStyle: TextStyle(color: Colors.grey),
+                ),
+              ),
             ),
+
             SizedBox(height: 50),
-            Text(
-              controller.contentController.text,
-              style: TextStyle(color: AppColor.white, fontSize: 20),
+
+            Obx(
+              () => TextField(
+                controller: controller.contentController,
+                enabled: controller.isEditing.value,
+                style: TextStyle(
+                  color: Color(controller.note.textColor),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Tiêu đề...',
+                  hintStyle: TextStyle(color: Colors.grey),
+                ),
+              ),
             ),
           ],
         ),

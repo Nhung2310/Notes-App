@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:note_app/app_routes_name.dart';
-import 'package:note_app/controller/editor_controller.dart';
+
 import 'package:note_app/controller/home_controller.dart';
-import 'package:note_app/widget/app_assets.dart';
+
 import 'package:note_app/widget/app_color.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  // const HomeScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.find<EditorController>().refresh();
           Get.toNamed(AppRoutesName.editor);
         },
         child: const Icon(Icons.add, color: AppColor.white),
@@ -43,7 +40,9 @@ class HomeScreen extends GetView<HomeController> {
                           color: AppColor.grey,
                         ),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.toNamed(AppRoutesName.searching);
+                          },
                           iconSize: 20,
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
@@ -130,13 +129,11 @@ class HomeScreen extends GetView<HomeController> {
                   }
 
                   return ListView.builder(
-                    itemCount: notes.isEmpty ? 0 : notes.length,
-
+                    itemCount: notes.length,
                     itemBuilder: (context, index) {
                       final note = notes[index];
                       Color color;
-                      if (note.backgroundColor != 0 &&
-                          note.backgroundColor != null) {
+                      if (note.backgroundColor != 0) {
                         color = Color(note.backgroundColor);
                         if (color == Colors.black) {
                           color = controller.getColorByIndex(index);
@@ -145,27 +142,48 @@ class HomeScreen extends GetView<HomeController> {
                         color = controller.getColorByIndex(index);
                       }
 
-                      return GestureDetector(
-                        onTap: () {
-                          print("Tapped note: ${note.title}");
-
-                          Get.toNamed(
-                            AppRoutesName.sampleNote,
-                            arguments: note.toMap(),
-                          );
+                      return Dismissible(
+                        key: Key(note.id.toString()),
+                        direction: DismissDirection.endToStart,
+                        confirmDismiss: (_) async {
+                          // Không xóa, chỉ hiển thị giao diện
+                          return false;
                         },
-                        child: Container(
-                          padding: EdgeInsets.all(16),
-                          margin: EdgeInsets.only(bottom: 12),
+                        background: Container(
+                          // Nền phía sau khi vuốt
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
-                            color: color.withOpacity(0.3),
+                            color: Colors.red,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Text(
-                            note.title,
-                            style: TextStyle(
-                              color: AppColor.white,
-                              fontSize: 18,
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                        ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.toNamed(
+                              AppRoutesName.sampleNote,
+                              arguments: note.toMap(),
+                            );
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.all(16),
+                            margin: EdgeInsets.only(bottom: 12),
+                            decoration: BoxDecoration(
+                              color: color.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              note.title,
+                              style: TextStyle(
+                                color: AppColor.white,
+                                fontSize: 18,
+                              ),
                             ),
                           ),
                         ),
