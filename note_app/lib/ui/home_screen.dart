@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:note_app/app_routes_name.dart';
+import 'package:note_app/controller/editor_controller.dart';
 import 'package:note_app/controller/home_controller.dart';
 import 'package:note_app/widget/app_assets.dart';
 import 'package:note_app/widget/app_color.dart';
 
 class HomeScreen extends GetView<HomeController> {
-  const HomeScreen({super.key});
+  // const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.find<EditorController>().refresh();
+          Get.toNamed(AppRoutesName.editor);
+        },
         child: const Icon(Icons.add, color: AppColor.white),
         shape: CircleBorder(),
         backgroundColor: AppColor.black,
@@ -35,7 +40,7 @@ class HomeScreen extends GetView<HomeController> {
                         padding: EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
-                          color: AppColor.gray,
+                          color: AppColor.grey,
                         ),
                         child: IconButton(
                           onPressed: () {},
@@ -48,7 +53,7 @@ class HomeScreen extends GetView<HomeController> {
                       SizedBox(width: 20),
                       Container(
                         decoration: BoxDecoration(
-                          color: AppColor.gray,
+                          color: AppColor.grey,
 
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -58,17 +63,13 @@ class HomeScreen extends GetView<HomeController> {
                             Get.dialog(
                               Dialog(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(20),
-                                  ),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Container(
                                   padding: const EdgeInsets.all(16),
-                                  decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(20),
-                                    ),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: AppColor.white,
                                   ),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -116,17 +117,53 @@ class HomeScreen extends GetView<HomeController> {
               ),
 
               Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(AppAssets.icHome, fit: BoxFit.cover),
-                    Text(
-                      'Create your first note !'.tr,
-                      style: TextStyle(color: AppColor.white, fontSize: 18),
-                    ),
-                  ],
-                ),
+                child: Obx(() {
+                  final notes = controller.notes;
+
+                  if (notes.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'Create your first note !'.tr,
+                        style: TextStyle(color: AppColor.white, fontSize: 18),
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: notes.isEmpty ? 0 : notes.length,
+
+                    itemBuilder: (context, index) {
+                      final note = notes[index];
+                      final color = controller.getColorByIndex(index);
+
+                      return GestureDetector(
+                        onTap: () {
+                          print("Tapped note: ${note.title}");
+
+                          Get.toNamed(
+                            AppRoutesName.sampleNote,
+                            arguments: note.toMap(),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.all(16),
+                          margin: EdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(
+                            color: color.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            note.title,
+                            style: TextStyle(
+                              color: AppColor.white,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }),
               ),
             ],
           ),

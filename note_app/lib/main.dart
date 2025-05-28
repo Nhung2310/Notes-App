@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:note_app/app_routes_name.dart';
+import 'package:note_app/binding/editor_binding.dart';
+import 'package:note_app/binding/home_binding.dart';
+import 'package:note_app/binding/sample_note_binding.dart';
 import 'package:note_app/messages.dart';
+import 'package:note_app/ui/editor_screen.dart';
 import 'package:note_app/ui/home_screen.dart';
 import 'package:get/get.dart';
+import 'package:note_app/ui/sample_note_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,7 +16,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -20,8 +25,26 @@ class MyApp extends StatelessWidget {
 
       title: 'Note App',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
-      home: const HomeScreen(),
+      initialRoute: AppRoutesName.home,
+      initialBinding: HomeBinding(),
+      getPages: [
+        GetPage(
+          name: AppRoutesName.home,
+          page: () => HomeScreen(),
+          bindings: [HomeBinding(), EditorBinding(), SampleNoteBinding()],
+        ),
+        GetPage(
+          name: AppRoutesName.editor,
+          page: () => EditorScreen(),
+          binding: EditorBinding(),
+        ),
+        GetPage(
+          name: AppRoutesName.sampleNote,
+          page: () => SampleNoteScreen(),
+          binding: SampleNoteBinding(),
+        ),
+      ],
+      //home: const HomeScreen(),
     );
   }
 }
