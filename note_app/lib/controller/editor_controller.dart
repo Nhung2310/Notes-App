@@ -10,21 +10,23 @@ import 'package:uuid/uuid.dart';
 class EditorController extends GetxController {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
-  final title = ''.obs; // Reactive variable for title
-  final content = ''.obs; // Reactive variable for content
-  String? _noteId; // Store the ID of the note being edited (null for new notes)
+  final title = ''.obs;
+  final content = ''.obs;
+  String? _noteId;
+  final backgroundColor = 0xFF000000.obs;
+  final textColor = 0xFFFFFFFF.obs;
 
   @override
   void onInit() {
     super.onInit();
-    // Sync TextEditingController with RxString
+
     titleController.addListener(() {
       title.value = titleController.text;
     });
     contentController.addListener(() {
       content.value = contentController.text;
     });
-    // Load note data if passed as arguments
+
     loadData();
   }
 
@@ -33,7 +35,7 @@ class EditorController extends GetxController {
     contentController.clear();
     title.value = '';
     content.value = '';
-    _noteId = null; // Reset note ID for new note
+    _noteId = null;
   }
 
   Future<void> saveData() async {
@@ -50,7 +52,13 @@ class EditorController extends GetxController {
 
       final id = _noteId ?? Uuid().v4();
 
-      final note = Note(id: id, title: title, content: content);
+      final note = Note(
+        id: id,
+        title: title,
+        content: content,
+        backgroundColor: backgroundColor.value,
+        textColor: textColor.value,
+      );
 
       final savedNotes = prefs.getStringList('saved_notes') ?? [];
 
@@ -79,15 +87,16 @@ class EditorController extends GetxController {
 
       Get.toNamed(AppRoutesName.home);
 
-      // Notify user
       Get.snackbar('Success', 'Note saved successfully');
     } catch (e) {
       Get.snackbar('Error', 'Failed to save note: $e');
     }
   }
 
-  Future<void> loadData() async {
+  void loadData() {
     try {
+      print("data:  ${Get.arguments}");
+
       final data = Get.arguments as Map<String, dynamic>?;
       if (data != null) {
         final note = Note.fromMap(data);
@@ -96,6 +105,8 @@ class EditorController extends GetxController {
         title.value = note.title;
         content.value = note.content;
         _noteId = note.id;
+        backgroundColor.value = note.backgroundColor;
+        textColor.value = note.textColor;
       }
     } catch (e) {
       Get.snackbar('Error', 'Failed to load note data: $e');

@@ -22,7 +22,7 @@ class HomeScreen extends GetView<HomeController> {
         backgroundColor: AppColor.black,
       ),
       body: Container(
-        padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
+        padding: EdgeInsets.fromLTRB(20, 50, 20, 50),
         color: AppColor.black,
         child: Center(
           child: Column(
@@ -134,7 +134,16 @@ class HomeScreen extends GetView<HomeController> {
 
                     itemBuilder: (context, index) {
                       final note = notes[index];
-                      final color = controller.getColorByIndex(index);
+                      Color color;
+                      if (note.backgroundColor != 0 &&
+                          note.backgroundColor != null) {
+                        color = Color(note.backgroundColor);
+                        if (color == Colors.black) {
+                          color = controller.getColorByIndex(index);
+                        }
+                      } else {
+                        color = controller.getColorByIndex(index);
+                      }
 
                       return GestureDetector(
                         onTap: () {

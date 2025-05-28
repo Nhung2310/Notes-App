@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
           name: AppRoutesName.editor,
           page: () => EditorScreen(),
           binding: EditorBinding(),
+          //arguments: Get.arguments,
         ),
         GetPage(
           name: AppRoutesName.sampleNote,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:note_app/app_routes_name.dart';
 import 'package:note_app/controller/sample_note_controller.dart';
 import 'package:note_app/model/note.dart';
 import 'package:note_app/widget/app_color.dart';
@@ -20,7 +21,11 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
       return Scaffold(
         body: Container(
           padding: EdgeInsets.fromLTRB(20, 50, 20, 20),
-          color: AppColor.black,
+          color:
+              (note.backgroundColor != null && note.backgroundColor != 0)
+                  ? Color(note.backgroundColor)
+                  : AppColor.black,
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -50,7 +55,12 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                       color: AppColor.grey,
                     ),
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(
+                          AppRoutesName.editor,
+                          arguments: note.toMap(),
+                        );
+                      },
                       icon: Icon(Icons.edit, color: AppColor.white),
                       iconSize: 20,
                       padding: EdgeInsets.zero,

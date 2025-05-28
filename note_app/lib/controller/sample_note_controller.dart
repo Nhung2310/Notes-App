@@ -3,18 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:note_app/model/note.dart';
 
 class SampleNoteController extends GetxController {
-  // Reactive variables
-  final title = ''.obs; // RxString for title
-  final content = ''.obs; // RxString for content
+  final title = ''.obs;
+  final content = ''.obs;
 
-  // TextEditingControllers for input fields
   final titleController = TextEditingController();
   final contentController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
-    // Sync TextEditingController with RxString
+
     titleController.addListener(() {
       title.value = titleController.text;
     });
@@ -23,7 +21,6 @@ class SampleNoteController extends GetxController {
     });
   }
 
-  // Initialize controller with note data
   void initNote(Note note) {
     title.value = note.title;
     content.value = note.content;
