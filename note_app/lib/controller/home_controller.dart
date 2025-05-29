@@ -45,8 +45,33 @@ class HomeController extends GetxController {
     Colors.lime.shade200,
   ];
 
-  // Lấy màu theo vị trí index (tuần hoàn)
   Color getColorByIndex(int index) {
     return noteColors[index % noteColors.length];
+  }
+
+  Future<void> deleteData(String id) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final savedNotes = prefs.getStringList('saved_notes') ?? [];
+
+      final List<Map<String, dynamic>> notesList =
+          savedNotes
+              .map((noteJson) => jsonDecode(noteJson) as Map<String, dynamic>)
+              .toList();
+
+      notesList.removeWhere((noteMap) => noteMap['id'] == id);
+
+      await prefs.setStringList(
+        'saved_notes',
+        notesList.map((noteMap) => jsonEncode(noteMap)).toList(),
+      );
+
+      refresh();
+      Get.find<HomeController>().loadNotes();
+
+      Get.snackbar('Success', 'Note deleted successfully');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to delete note: $e');
+    }
   }
 }

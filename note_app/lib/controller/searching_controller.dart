@@ -34,7 +34,8 @@ class SearchingController extends GetxController {
   void search(String query) {
     print("Searching for: $query");
     if (query.isEmpty) {
-      result.clear();
+      // result.clear();
+      result.value = notes.toList();
     } else {
       result.value =
           notes
@@ -71,4 +72,9 @@ class SearchingController extends GetxController {
     textSearch.dispose();
     super.onClose();
   }
+
+  // Future<void> remove(String id) async {
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   await preferences.remove('id');
+  // }
 }

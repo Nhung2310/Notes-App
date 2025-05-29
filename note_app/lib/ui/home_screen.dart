@@ -146,11 +146,33 @@ class HomeScreen extends GetView<HomeController> {
                         key: Key(note.id.toString()),
                         direction: DismissDirection.endToStart,
                         confirmDismiss: (_) async {
-                          // Không xóa, chỉ hiển thị giao diện
+                          final confirm = await Get.dialog<bool>(
+                            AlertDialog(
+                              title: Text('Xác nhận xoá'),
+                              content: Text(
+                                'Bạn có chắc muốn xoá ghi chú này không?',
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Get.back(result: false),
+                                  child: Text('Huỷ'),
+                                ),
+                                TextButton(
+                                  onPressed: () => Get.back(result: true),
+                                  child: Text('Xoá'),
+                                ),
+                              ],
+                            ),
+                          );
+
+                          if (confirm == true) {
+                            await controller.deleteData(note.id);
+                            return true;
+                          }
+
                           return false;
                         },
                         background: Container(
-                          // Nền phía sau khi vuốt
                           alignment: Alignment.centerRight,
                           padding: EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
