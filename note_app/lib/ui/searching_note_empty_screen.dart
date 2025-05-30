@@ -16,7 +16,7 @@ class SearchingNoteEmptyScreen extends GetView<SearchingController> {
             TextField(
               controller: controller.textSearch,
               decoration: InputDecoration(
-                hintText: 'Search your note...',
+                hintText: 'Search your note...'.tr,
                 hintStyle: TextStyle(color: AppColor.grey, fontSize: 14),
                 prefixIcon: Icon(Icons.search, color: AppColor.white, size: 20),
                 contentPadding: const EdgeInsets.symmetric(

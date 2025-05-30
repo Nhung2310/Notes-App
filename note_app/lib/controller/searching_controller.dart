@@ -72,9 +72,4 @@ class SearchingController extends GetxController {
     textSearch.dispose();
     super.onClose();
   }
-
-  // Future<void> remove(String id) async {
-  //   SharedPreferences preferences = await SharedPreferences.getInstance();
-  //   await preferences.remove('id');
-  // }
 }

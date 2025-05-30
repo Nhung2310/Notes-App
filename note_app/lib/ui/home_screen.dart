@@ -73,8 +73,8 @@ class HomeScreen extends GetView<HomeController> {
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      const Text(
-                                        "Chọn ngôn ngữ",
+                                      Text(
+                                        'Select language'.tr,
                                         style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class HomeScreen extends GetView<HomeController> {
                                       ),
                                       const SizedBox(height: 16),
                                       ListTile(
-                                        title: const Text("Tiếng Việt"),
+                                        title: Text('VietNamese'.tr),
                                         onTap: () {
                                           Get.updateLocale(
                                             const Locale('vi', 'VN'),
@@ -91,7 +91,7 @@ class HomeScreen extends GetView<HomeController> {
                                         },
                                       ),
                                       ListTile(
-                                        title: const Text("English"),
+                                        title: Text("English".tr),
                                         onTap: () {
                                           Get.updateLocale(
                                             const Locale('en', 'US'),
@@ -148,18 +148,18 @@ class HomeScreen extends GetView<HomeController> {
                         confirmDismiss: (_) async {
                           final confirm = await Get.dialog<bool>(
                             AlertDialog(
-                              title: Text('Xác nhận xoá'),
+                              title: Text('Confirm deletion'.tr),
                               content: Text(
-                                'Bạn có chắc muốn xoá ghi chú này không?',
+                                'Are you sure you want to delete this note?'.tr,
                               ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Get.back(result: false),
-                                  child: Text('Huỷ'),
+                                  child: Text('Cancel'.tr),
                                 ),
                                 TextButton(
                                   onPressed: () => Get.back(result: true),
-                                  child: Text('Xoá'),
+                                  child: Text('Delete'.tr),
                                 ),
                               ],
                             ),

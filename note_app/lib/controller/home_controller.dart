@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:note_app/model/note.dart';
+import 'package:note_app/widget/app_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeController extends GetxController {
@@ -66,12 +67,21 @@ class HomeController extends GetxController {
         notesList.map((noteMap) => jsonEncode(noteMap)).toList(),
       );
 
-      refresh();
       Get.find<HomeController>().loadNotes();
 
-      Get.snackbar('Success', 'Note deleted successfully');
+      Get.snackbar(
+        'Success',
+        'Note deleted successfully',
+        backgroundColor: AppColor.white,
+        colorText: AppColor.black,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to delete note: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to delete note: $e',
+        backgroundColor: AppColor.white,
+        colorText: AppColor.black,
+      );
     }
   }
 }

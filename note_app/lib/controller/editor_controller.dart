@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:note_app/app_routes_name.dart';
 import 'package:note_app/controller/home_controller.dart';
 import 'package:note_app/model/note.dart';
+import 'package:note_app/widget/app_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -47,7 +48,14 @@ class EditorController extends GetxController {
       final content = contentController.text.trim();
 
       if (title.isEmpty || content.isEmpty) {
-        Get.snackbar('Error', 'Title and content cannot be empty');
+        Get.back();
+        Get.snackbar(
+          'Error',
+          'Title and content cannot be empty',
+          backgroundColor: AppColor.white,
+          colorText: AppColor.black,
+        );
+
         return;
       }
 
@@ -86,9 +94,19 @@ class EditorController extends GetxController {
       Get.find<HomeController>().loadNotes();
       Get.toNamed(AppRoutesName.home);
 
-      Get.snackbar('Success', 'Note saved successfully');
+      Get.snackbar(
+        'Success',
+        'Note saved successfully',
+        backgroundColor: AppColor.white,
+        colorText: AppColor.black,
+      );
     } catch (e) {
-      Get.snackbar('Error', 'Failed to save note: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to save note: $e',
+        backgroundColor: AppColor.white,
+        colorText: AppColor.black,
+      );
     }
   }
 
@@ -108,7 +126,12 @@ class EditorController extends GetxController {
         textColor.value = note.textColor;
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to load note data: $e');
+      Get.snackbar(
+        'Error',
+        'Failed to load note data: $e',
+        backgroundColor: AppColor.white,
+        colorText: AppColor.black,
+      );
     }
   }
 
@@ -117,5 +140,47 @@ class EditorController extends GetxController {
     titleController.dispose();
     contentController.dispose();
     super.onClose();
+  }
+
+  Future dialog(String text) {
+    return Get.dialog(
+      barrierColor: Colors.grey.withOpacity(0.7),
+      Dialog(
+        shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: AppColor.black,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.question_mark_rounded, color: AppColor.white),
+              Text(text, style: TextStyle(color: AppColor.white)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text('Discard'.tr),
+                    style: TextButton.styleFrom(foregroundColor: AppColor.red),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('Save'.tr),
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColor.green,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

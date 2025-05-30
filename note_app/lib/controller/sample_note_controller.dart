@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:note_app/app_routes_name.dart';
 import 'package:note_app/controller/home_controller.dart';
 import 'package:note_app/model/note.dart';
+import 'package:note_app/widget/app_color.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SampleNoteController extends GetxController {
@@ -53,7 +54,12 @@ class SampleNoteController extends GetxController {
     final data = Get.arguments as Map<String, dynamic>?;
     if (data == null) {
       print("No arguments received");
-      Get.snackbar("Lỗi", "Không nhận được dữ liệu ghi chú");
+      Get.snackbar(
+        "Error".tr,
+        "Unable to receive data note".tr,
+        backgroundColor: AppColor.white,
+        colorText: AppColor.black,
+      );
       return;
     }
     try {
@@ -67,7 +73,7 @@ class SampleNoteController extends GetxController {
       print("contentController.text: ${contentController.text}");
     } catch (e) {
       print("Lỗi dữ liệu ghi chú: $e");
-      Get.snackbar("Lỗi", "Không thể tải dữ liệu ghi chú: $e");
+      Get.snackbar("Error".tr, "Failed to load note data: $e".tr);
       note = Note(
         id: '',
         title: '',
@@ -93,12 +99,12 @@ class SampleNoteController extends GetxController {
       final updatedContent = contentController.text.trim();
 
       if (note.id.isEmpty) {
-        Get.snackbar('Lỗi', 'Không tìm thấy ID ghi chú');
+        Get.snackbar('Error'.tr, 'Note ID not found'.tr);
         return;
       }
 
       if (updatedTitle.isEmpty || updatedContent.isEmpty) {
-        Get.snackbar('Lỗi', 'Tiêu đề và nội dung không được để trống');
+        Get.snackbar('Error'.tr, 'Title and content cannot be empty'.tr);
         return;
       }
 
@@ -115,7 +121,7 @@ class SampleNoteController extends GetxController {
       if (index != -1) {
         notesList[index] = note.toMap();
       } else {
-        Get.snackbar('Lỗi', 'Không tìm thấy ghi chú để cập nhật');
+        Get.snackbar('Error'.tr, 'No notes found to update'.tr);
         return;
       }
 
@@ -127,9 +133,9 @@ class SampleNoteController extends GetxController {
       Get.back();
       Get.find<HomeController>().loadNotes();
       Get.toNamed(AppRoutesName.home);
-      Get.snackbar('Thành công', 'Cập nhật ghi chú thành công');
+      Get.snackbar('Success'.tr, 'Note updated successfully');
     } catch (e) {
-      Get.snackbar('Lỗi', 'Không thể cập nhật ghi chú: $e');
+      Get.snackbar('Error'.tr, 'Unable to update notes: $e'.tr);
     }
   }
 }

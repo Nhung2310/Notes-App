@@ -54,7 +54,9 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                                   context: context,
                                   builder:
                                       (ctx) => AlertDialog(
-                                        title: Text("Chọn màu nền"),
+                                        title: Text(
+                                          "Choose background color".tr,
+                                        ),
                                         content: SingleChildScrollView(
                                           child: BlockPicker(
                                             pickerColor: Color(
@@ -108,7 +110,7 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                                             color: AppColor.white,
                                           ),
                                           Text(
-                                            'Save changes ?',
+                                            'Save changes ?'.tr,
                                             style: TextStyle(
                                               color: AppColor.white,
                                             ),
@@ -123,7 +125,7 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                                                       false;
                                                   Get.back();
                                                 },
-                                                child: Text('Discard'),
+                                                child: Text('Discard'.tr),
                                                 style: TextButton.styleFrom(
                                                   foregroundColor: AppColor.red,
                                                 ),
@@ -134,7 +136,7 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                                                   controller.isEditing.value =
                                                       false;
                                                 },
-                                                child: Text('Save'),
+                                                child: Text('Save'.tr),
                                                 style: TextButton.styleFrom(
                                                   foregroundColor:
                                                       AppColor.green,
@@ -190,7 +192,7 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                 ),
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Tiêu đề...',
+                  hintText: 'Title...'.tr,
                   hintStyle: TextStyle(color: Colors.grey),
                 ),
               ),
@@ -209,7 +211,7 @@ class SampleNoteScreen extends GetView<SampleNoteController> {
                 ),
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: 'Tiêu đề...',
+                  hintText: 'Title...'.tr,
                   hintStyle: TextStyle(color: Colors.grey),
                 ),
               ),

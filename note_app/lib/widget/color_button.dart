@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 
 class ColorPickerButton extends StatelessWidget {
   final String label;
@@ -23,7 +24,7 @@ class ColorPickerButton extends StatelessWidget {
           context: context,
           builder:
               (_) => AlertDialog(
-                title: Text('Chọn màu $label'),
+                title: Text('Choose color $label'.tr),
                 content: ColorPicker(
                   pickerColor: initialColor,
                   onColorChanged: (color) => selectedColor = color,
@@ -34,7 +35,7 @@ class ColorPickerButton extends StatelessWidget {
                       onColorChanged(selectedColor);
                       Navigator.pop(context);
                     },
-                    child: const Text('Chọn'),
+                    child: Text('Chọn'.tr),
                   ),
                 ],
               ),

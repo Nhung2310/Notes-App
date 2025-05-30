@@ -52,7 +52,7 @@ class EditorScreen extends GetView<EditorController> {
                               context: context,
                               builder:
                                   (ctx) => AlertDialog(
-                                    title: Text("Chọn màu nền"),
+                                    title: Text("Choose background color".tr),
                                     content: SingleChildScrollView(
                                       child: BlockPicker(
                                         pickerColor: Color(
@@ -102,7 +102,7 @@ class EditorScreen extends GetView<EditorController> {
                                         color: AppColor.white,
                                       ),
                                       Text(
-                                        'Save changes ?',
+                                        'Save changes ?'.tr,
                                         style: TextStyle(color: AppColor.white),
                                       ),
                                       Row(
@@ -111,11 +111,12 @@ class EditorScreen extends GetView<EditorController> {
                                         children: [
                                           TextButton(
                                             onPressed: () {
-                                              dialog(
-                                                'Are your sure you want discard your changes ?',
+                                              controller.dialog(
+                                                'Are your sure you want discard your changes ?'
+                                                    .tr,
                                               );
                                             },
-                                            child: Text('Discard'),
+                                            child: Text('Discard'.tr),
                                             style: TextButton.styleFrom(
                                               foregroundColor: AppColor.red,
                                             ),
@@ -123,7 +124,7 @@ class EditorScreen extends GetView<EditorController> {
                                           TextButton(
                                             onPressed:
                                                 () => controller.saveData(),
-                                            child: Text('Save'),
+                                            child: Text('Save'.tr),
                                             style: TextButton.styleFrom(
                                               foregroundColor: AppColor.green,
                                             ),
@@ -187,48 +188,6 @@ class EditorScreen extends GetView<EditorController> {
                   color: Colors.white,
                   overflow: TextOverflow.ellipsis,
                 ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future dialog(String text) {
-    return Get.dialog(
-      barrierColor: Colors.grey.withOpacity(0.7),
-      Dialog(
-        shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: AppColor.black,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.question_mark_rounded, color: AppColor.white),
-              Text(text, style: TextStyle(color: AppColor.white)),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: Text('Discard'),
-                    style: TextButton.styleFrom(foregroundColor: AppColor.red),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text('Save'),
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppColor.green,
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
