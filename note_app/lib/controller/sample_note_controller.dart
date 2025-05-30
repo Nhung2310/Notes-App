@@ -12,6 +12,7 @@ class SampleNoteController extends GetxController {
   final title = ''.obs;
   final content = ''.obs;
   final isEditing = false.obs;
+  final backgroundColor = 0xFF000000.obs;
 
   final titleController = TextEditingController();
   final contentController = TextEditingController();
