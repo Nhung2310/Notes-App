@@ -10,14 +10,22 @@ class HomeScreen extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(AppRoutesName.editor);
-        },
-        child: const Icon(Icons.add, color: AppColor.white),
-        shape: CircleBorder(),
-        backgroundColor: AppColor.black,
+      floatingActionButton: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: AppColor.grey, width: 1),
+        ),
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.toNamed(AppRoutesName.editor);
+          },
+          child: const Icon(Icons.add, color: AppColor.white),
+          shape: const CircleBorder(),
+          backgroundColor: AppColor.black,
+          elevation: 4,
+        ),
       ),
+
       body: Container(
         padding: EdgeInsets.fromLTRB(20, 50, 20, 50),
         color: AppColor.black,

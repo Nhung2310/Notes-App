@@ -48,7 +48,7 @@ class SearchingNoteEmptyScreen extends GetView<SearchingController> {
                 if (notes.isEmpty) {
                   return Center(
                     child: Text(
-                      'Create your first note!'.tr,
+                      'Search your first note!'.tr,
                       style: TextStyle(color: AppColor.white, fontSize: 18),
                     ),
                   );
